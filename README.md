@@ -9,7 +9,7 @@ C# 콘솔 화면에서 작동하는 RPG 게임입니다.
 ### 개발 환경
 - <a><img src="https://img.shields.io/badge/visualstudio-5C2D91?style=flat-square&logo=visualstudio&logoColor=white"/></a>
 - net 6.0
-- visual studio 2022
+- C#
 
 
 ### 주요 기능
