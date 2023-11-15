@@ -94,7 +94,6 @@
         RenderClass m_screen;
         InputClass m_inputClass;
         InterfaceClass m_interfaceClass;
-        SelectEquipment selectEquipment;
         PlayerStatus m_playerStatus;
         List<Armor> m_armors = new List<Armor>();
         List<Weapon> m_weapons = new List<Weapon>();
@@ -102,7 +101,7 @@
         UserInterfaceInfo m_uiInfo;
 
 
-
+       
         public GameManager()
         {
             m_playerStatus = new PlayerStatus();
@@ -117,7 +116,7 @@
 
             //Ui 클래스 생성
             m_interfaceClass = new InterfaceClass();
-            selectEquipment = new SelectEquipment();
+      
 
             //입력 클래스 생성
             m_inputClass = new InputClass();
@@ -254,7 +253,7 @@
                     //방어구 관리창 그리기
                     m_interfaceClass.DrawArmorManager(m_screen.m_frontbufferUI, m_armors);
 
-                    selectEquipment.Select(m_armors, m_inputClass);
+                    SelectArmor();
 
                     if (m_inputClass.Num0_IsPressed())
                     {
@@ -266,8 +265,9 @@
                     //무기 관리창 그리기
                     m_interfaceClass.DrawWeaponManager(m_screen.m_frontbufferUI, m_weapons);
 
-                    selectEquipment.Select(m_weapons, m_inputClass);
-                    
+                    SelectWeapon();
+
+
                     if (m_inputClass.Num0_IsPressed())
                     {
                         m_uiInfo = UserInterfaceInfo.inventory;
@@ -275,5 +275,68 @@
                     break;
             }
         }
+
+        private void SelectWeapon()
+        {
+            bool[] keys = new bool[6];
+            keys[0] = m_inputClass.Num1_IsPressed();
+            keys[1] = m_inputClass.Num2_IsPressed();
+            keys[2] = m_inputClass.Num3_IsPressed();
+            keys[3] = m_inputClass.Num4_IsPressed();
+            keys[4] = m_inputClass.Num5_IsPressed();
+            keys[5] = m_inputClass.Num6_IsPressed();
+
+            for (int i = 0; i < m_weapons.Count(); i++)
+            {
+                if (keys[i])
+                {
+                   
+                    Weapon tmp = m_weapons[i];
+                    //선택한 장비 제외
+                    if (keys[i])
+                    {
+                        tmp.SwitchEquip();
+                        m_weapons[i] = tmp;
+                    }
+                    else
+                    {
+                        tmp.m_equipCheck = false;
+                        m_weapons[i] = tmp;
+                    }
+                }
+            } 
+        }
+
+        private void SelectArmor()
+        {
+            bool[] keys = new bool[6];
+            keys[0] = m_inputClass.Num1_IsPressed();
+            keys[1] = m_inputClass.Num2_IsPressed();
+            keys[2] = m_inputClass.Num3_IsPressed();
+            keys[3] = m_inputClass.Num4_IsPressed();
+            keys[4] = m_inputClass.Num5_IsPressed();
+            keys[5] = m_inputClass.Num6_IsPressed();
+
+            for (int i = 0; i < m_armors.Count(); i++)
+            {
+                if (keys[i])
+                {
+
+                    Armor tmp = m_armors[i];
+                    //선택한 장비 제외
+                    if (keys[i])
+                    {
+                        tmp.SwitchEquip();
+                        m_armors[i] = tmp;
+                    }
+                    else
+                    {
+                        tmp.m_equipCheck = false;
+                        m_armors[i] = tmp;
+                    }
+                }
+            }
+        }
+
     }
 }
